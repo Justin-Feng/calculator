@@ -86,10 +86,18 @@ class Calculator {
             default: 
                 return
         }
+        dataRecordContainerTextElement.innerText += '\n'
+        dataRecordContainerTextElement.innerText += `${this.getDisplayNumber(this.previousOperand)} ${this.operation} ${this.currentOperand} = ${computation}`
+        this.updateScroll()
         this.currentOperand = computation
         this.operation = undefined
         this.previousOperand = ''
         this.currentOperand = computation
+    }
+
+    updateScroll() {
+        let element = document.getElementById("data-records");
+        element.scrollTop = element.scrollHeight;
     }
 
     // helper function for updateDisplay() below to deal with the 
@@ -131,6 +139,7 @@ class Calculator {
 }
 
 
+// Global Variables
 const numberButtons = document.querySelectorAll('[data-number]')
 const operationButtons = document.querySelectorAll('[data-operation]')
 const equalsButton = document.querySelector('[data-equals]')
@@ -138,9 +147,12 @@ const deleteButton = document.querySelector('[data-delete]')
 const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
+const dataRecordContainerTextElement = document.querySelector('[data-records]')
+
 
 // calculator object
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
+
 
 // Each number button listening for "click"
 // Triggered event will append the number to the currentOperand
@@ -151,7 +163,6 @@ numberButtons.forEach(button => {
         calculator.updateDisplay()
     })
 })
-
 
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
